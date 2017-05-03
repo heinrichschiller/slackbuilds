@@ -28,9 +28,12 @@
 
 
 PRGNAM=Python	# replace with name of program
-VERSION=${VERSION:-3.4.6}
+VERSION=${VERSION:-$1}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}	# "_SBo" is required for submission to slackbuilds.org
+
+# download python3 with wget
+wget https://www.python.org/ftp/python/$VERSION/$PRGNAM-$VERSION.tar.xz
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -134,3 +137,5 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
 
+# Install the package automatically
+installpkg $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
